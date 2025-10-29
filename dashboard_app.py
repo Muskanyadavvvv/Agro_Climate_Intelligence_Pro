@@ -207,6 +207,7 @@ with tabs[1]:
         st.error("⚠️ Please enter a city name.")
 
 
+
 # ---------- TAB 2: YIELD MAP ----------
 with tabs[2]:
     st.markdown("<div class='tab-header'>🗺️ Yield Forecast Visualization</div>", unsafe_allow_html=True)
@@ -284,6 +285,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
