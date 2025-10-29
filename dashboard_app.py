@@ -155,10 +155,10 @@ with tabs[1]:
         </div>
     """, unsafe_allow_html=True)
 
-    # City Input Box
-    city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
+   # City Input Box
+city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
 
-    if st.button("🔍 Fetch Weather Data"):
+if st.button("🔍 Fetch Weather Data"):
     if city:
         try:
             weather_data = fetch_weather_data(city)
@@ -175,37 +175,15 @@ with tabs[1]:
                     "city": city
                 }
 
+            if weather_data:
+                st.success(f"✅ Showing Weather Data for {city}")
+                col1, col2, col3 = st.columns(3)
+                # You can add display elements for temperature, humidity, etc. here
+
         except Exception as e:
-            st.error(f"❌ Error fetching data: {e}")
-            weather_data = {
-                "temperature": 28.0,
-                "humidity": 65,
-                "rainfall": 5,
-                "description": "Clear sky (Fallback Mode)",
-                "wind_speed": 3.2,
-                "city": city
-            }
-
-        # --- Display Weather Data ---
-        if weather_data:
-            st.success(f"✅ Showing Weather Data for {city}")
-            col1, col2, col3 = st.columns(3)
-
-            with col1:
-                st.metric("🌧️ Rainfall", f"{weather_data['rainfall']} mm", "Avg rainfall")
-            with col2:
-                st.metric("🌡️ Temperature", f"{weather_data['temperature']} °C", "Current")
-            with col3:
-                st.metric("💧 Humidity", f"{weather_data['humidity']} %", "Current")
-
-            st.markdown(f"""
-            ☁️ **Condition:** {weather_data['description']}  
-            🌬️ **Wind Speed:** {weather_data['wind_speed']} m/s
-            """)
-
+            st.error(f"⚠️ Error fetching weather data: {e}")
     else:
-        st.error("⚠️ Please enter a city name.")
-
+        st.warning("⚠️ Please enter a city name.")
 
 
 # ---------- TAB 2: YIELD MAP ----------
@@ -285,6 +263,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
