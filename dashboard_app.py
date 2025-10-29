@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from fetch_weather_api import fetch_weather_data
-from recommendation_chatbot import ai_recommendation
+from recommendation_chatbot import get_agri_recommendation as ai_recommendation
 from map_visualization import app as show_yield_map
 
 # ---------- 🌿 PAGE CONFIGURATION ----------
@@ -131,3 +131,4 @@ st.markdown("""
     <i>Empowering Sustainable Agriculture through AI, Data & Innovation.</i>
 </div>
 """, unsafe_allow_html=True)
+
