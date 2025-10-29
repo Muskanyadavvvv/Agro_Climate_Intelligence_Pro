@@ -54,31 +54,87 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ---------- 🌍 APP HEADER ----------
-st.title("🌾 Agro Climate Intelligence Pro")
+# ---------- 🌾 APP HEADER ----------
 st.markdown("""
-#### A Smart Dashboard to Forecast, Analyze & Optimize Agricultural Productivity  
-Empowered by AI • Driven by Data • Inspired by Nature 🌿
-""")
+    <div style="
+        background: linear-gradient(90deg, #16a34a, #22c55e, #65a30d);
+        padding: 25px;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+        margin-bottom: 20px;">
+        <h1 style="font-family:'Poppins',sans-serif; font-weight:700; margin:0;">
+            🌿 Agro Climate Intelligence Pro
+        </h1>
+        <p style="font-size:18px; margin-top:5px;">
+            A Smart Dashboard to Forecast, Analyze & Optimize Agricultural Productivity <br>
+            <b>Empowered by AI • Driven by Data • Inspired by Nature 🌾</b>
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# ---------- 🌦️ Overview Metrics ----------
-st.subheader("🌈 Quick Climate & Crop Overview")
+# ---------- 📊 OVERVIEW METRICS ----------
+st.markdown("""
+    <h2 style='text-align:center; color:#14532d; font-family:Poppins;'>
+        🌈 Quick Climate & Crop Overview
+    </h2>
+""", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
-
 with col1:
-    st.markdown("<div class='metric-card'>🌧️<br><b>Avg Rainfall</b><br>320 mm</div>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style="
+            background-color:#ecfdf5;
+            padding:20px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <h3>🌧️ Rainfall</h3>
+            <p style="font-size:22px; color:#166534;"><b>320 mm</b></p>
+            <p style="color:#4b5563;">Avg seasonal rainfall</p>
+        </div>
+    """, unsafe_allow_html=True)
+
 with col2:
-    st.markdown("<div class='metric-card'>🌡️<br><b>Avg Temperature</b><br>28.4°C</div>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style="
+            background-color:#f0fdf4;
+            padding:20px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <h3>🌡️ Temperature</h3>
+            <p style="font-size:22px; color:#15803d;"><b>28.4°C</b></p>
+            <p style="color:#4b5563;">Optimal range for major crops</p>
+        </div>
+    """, unsafe_allow_html=True)
+
 with col3:
-    st.markdown("<div class='metric-card'>🌾<br><b>Avg Crop Yield</b><br>4.1 tons/ha</div>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style="
+            background-color:#fefce8;
+            padding:20px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <h3>🌾 Crop Yield</h3>
+            <p style="font-size:22px; color:#b45309;"><b>4.1 tons/ha</b></p>
+            <p style="color:#4b5563;">Predicted average yield</p>
+        </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
 
-# ---------- 🧭 TABS FOR NAVIGATION ----------
-tabs = st.tabs(["🌦️ Weather & Forecast", "🗺️ Yield Map", "🤖 AI Recommendations"])
+# ---------- 📂 TABS FOR NAVIGATION ----------
+tabs = st.tabs([
+    "🏠 Overview",
+    "🌦️ Weather & Forecast",
+    "🗺️ Yield Map",
+    "🤖 AI Recommendations"
+])
 
 # ---------- TAB 1: WEATHER ----------
 with tabs[0]:
@@ -175,5 +231,6 @@ st.markdown("""
     <i>Empowering Sustainable Agriculture through AI, Data & Innovation.</i>
 </div>
 """, unsafe_allow_html=True)
+
 
 
