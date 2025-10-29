@@ -110,19 +110,63 @@ with tabs[1]:
     show_yield_map()
 
 # ---------- TAB 3: AI RECOMMENDATIONS ----------
+# --- AI Recommendations Tab ---
 with tabs[2]:
-    st.markdown("<div class='tab-header'>🤖 AI-based Agricultural Insights</div>", unsafe_allow_html=True)
-    st.write("Ask questions or get AI-powered recommendations for improving crop yield and sustainability.")
+    st.markdown("<h2 style='color:#16a34a; text-align:center;'>🌾 Smart AI Crop Recommendations</h2>", unsafe_allow_html=True)
+    st.write("Our AI analyzes environmental data to provide actionable, data-driven recommendations for farmers.")
 
-    user_query = st.text_area("Ask your agricultural question here:")
-    if st.button("Get Recommendation"):
-        if user_query:
-            with st.spinner("Analyzing with AI..."):
-                response = ai_recommendation(user_query)
-                st.success("AI Recommendation:")
-                st.write(response)
-        else:
-            st.warning("Please enter a query to receive insights.")
+    # User Input Section
+    with st.form("recommendation_form"):
+        st.markdown("### 🌱 Enter Crop Parameters")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            crop = st.text_input("Crop Name", "Wheat")
+        with col2:
+            temp = st.number_input("Average Temperature (°C)", 10.0, 50.0, 28.0)
+        with col3:
+            rain = st.number_input("Annual Rainfall (mm)", 100.0, 2000.0, 900.0)
+
+        col4, col5 = st.columns(2)
+        with col4:
+            humidity = st.slider("Average Humidity (%)", 10, 100, 60)
+        with col5:
+            soil_quality = st.selectbox("Soil Fertility Level", ["Poor", "Medium", "Good"])
+
+        yield_pred = st.slider("Predicted Yield (tons/hectare)", 1.0, 7.0, 4.0)
+
+        submitted = st.form_submit_button("🔍 Get AI Recommendations")
+
+    # Generate Recommendations
+    if submitted:
+        from recommendation_chatbot import get_agri_recommendation
+        recs = get_agri_recommendation(crop, temp, rain, yield_pred, soil_quality, humidity)
+
+        st.markdown("---")
+        st.markdown("<h3 style='color:#0284c7;'>📋 Recommendations Summary</h3>", unsafe_allow_html=True)
+
+        # Display results in colorful cards
+        for r in recs:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color:#f0fdf4;
+                    border-left: 6px solid #16a34a;
+                    padding: 12px;
+                    margin: 10px 0;
+                    border-radius: 10px;
+                    box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+                    font-size:16px;
+                    color:#065f46;">
+                    {r}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        # Encouraging message
+        st.success("🌿 AI Recommendations generated successfully! Implement these to optimize crop yield.")
+
 
 # ---------- 🌱 FOOTER ----------
 st.markdown("""
@@ -131,4 +175,5 @@ st.markdown("""
     <i>Empowering Sustainable Agriculture through AI, Data & Innovation.</i>
 </div>
 """, unsafe_allow_html=True)
+
 
