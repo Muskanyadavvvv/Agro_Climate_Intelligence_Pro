@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from scripts.fetch_weather_api import fetch_weather_data
-from scripts.recommendation_chatbot import get_agri_recommendation
-from app.map_visualization import show_yield_map
+from fetch_weather_api import fetch_weather_data
+from recommendation_chatbot import get_agri_recommendation
+from map_visualization import show_yield_map
 import plotly.express as px
 
 # Page setup
@@ -62,3 +62,4 @@ with tabs[3]:
     if st.button("Generate Recommendation"):
         result = get_agri_recommendation(crop, temp, rain, yield_pred)
         st.success(result)
+
