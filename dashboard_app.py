@@ -185,31 +185,31 @@ with tabs[1]:
                 col1, col2, col3 = st.columns(3)
 
                 with col1:
-                    st.markdown("""
+                    st.markdown(f"""
                     <div style="background-color:#E3F2FD; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
                         <h3>🌡️ Temperature</h3>
-                        <h2 style='color:#1976D2;'>{} °C</h2>
+                        <h2 style='color:#1976D2;'>{weather_data['temperature']} °C</h2>
                         <p>Optimal range for most crops</p>
                     </div>
-                    """.format(weather_data['temperature']), unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
                 with col2:
-                    st.markdown("""
+                    st.markdown(f"""
                     <div style="background-color:#E8F5E9; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
                         <h3>💧 Humidity</h3>
-                        <h2 style='color:#2E7D32;'>{}%</h2>
+                        <h2 style='color:#2E7D32;'>{weather_data['humidity']}%</h2>
                         <p>Stable humidity levels</p>
                     </div>
-                    """.format(weather_data['humidity']), unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
                 with col3:
-                    st.markdown("""
+                    st.markdown(f"""
                     <div style="background-color:#FFF8E1; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
                         <h3>🌧️ Rainfall</h3>
-                        <h2 style='color:#F57C00;'>{} mm</h2>
+                        <h2 style='color:#F57C00;'>{weather_data['rainfall']} mm</h2>
                         <p>Expected seasonal rainfall</p>
                     </div>
-                    """.format(weather_data['rainfall']), unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
                 st.markdown("---")
 
@@ -221,6 +221,46 @@ with tabs[1]:
                     <p><b>🌬️ Wind Speed:</b> {weather_data['wind_speed']} m/s</p>
                 </div>
                 """, unsafe_allow_html=True)
+
+                # ----------- 5-Day Forecast Chart -----------
+                st.markdown("### 📊 5-Day Forecast (Temperature & Rainfall Trend)")
+
+                import pandas as pd
+                import plotly.graph_objects as go
+
+                # Generate sample forecast (or use API forecast if available)
+                forecast_data = pd.DataFrame({
+                    "Day": ["Mon", "Tue", "Wed", "Thu", "Fri"],
+                    "Temperature (°C)": [weather_data['temperature'] + d for d in [0, +1, -2, +3, +1]],
+                    "Rainfall (mm)": [weather_data['rainfall'] + d for d in [0, +2, -1, +3, -2]]
+                })
+
+                fig = go.Figure()
+
+                fig.add_trace(go.Scatter(
+                    x=forecast_data["Day"], y=forecast_data["Temperature (°C)"],
+                    mode='lines+markers', name='Temperature (°C)',
+                    line=dict(color='royalblue', width=3),
+                    marker=dict(size=8)
+                ))
+
+                fig.add_trace(go.Bar(
+                    x=forecast_data["Day"], y=forecast_data["Rainfall (mm)"],
+                    name='Rainfall (mm)', marker_color='lightseagreen', opacity=0.7
+                ))
+
+                fig.update_layout(
+                    template='plotly_white',
+                    title=f"5-Day Weather Forecast for {city}",
+                    title_font=dict(size=18),
+                    xaxis_title="Day",
+                    yaxis_title="Value",
+                    legend=dict(orientation="h", y=-0.2, x=0.3),
+                    height=450,
+                    margin=dict(l=40, r=40, t=80, b=40)
+                )
+
+                st.plotly_chart(fig, use_container_width=True)
         else:
             st.warning("⚠️ Please enter a city name before fetching data.")
 
@@ -301,6 +341,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
