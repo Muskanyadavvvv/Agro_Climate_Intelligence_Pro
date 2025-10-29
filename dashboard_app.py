@@ -137,37 +137,94 @@ tabs = st.tabs([
 ])
 
 # ---------- TAB 1: WEATHER ----------
-with tabs[0]:
-    st.markdown("<div class='tab-header'>🌦️ Real-Time Weather and Forecasting</div>", unsafe_allow_html=True)
-    st.write("Enter your city to view the live weather and AI-based crop recommendations.")
-    
-    city = st.text_input("Enter City Name", "Delhi")
-    if st.button("Fetch Weather Data"):
-        try:
-            weather_data = fetch_weather_data(city)
-            st.success(f"Weather data for {city} fetched successfully!")
+# ---------- 🌦️ WEATHER & FORECAST TAB ----------
+with tabs[1]:
+    st.markdown("""
+        <div style="
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-bottom: 25px;">
+            <h2 style="font-family:Poppins; font-weight:700; margin:0;">
+                🌦️ Real-Time Weather and Forecast
+            </h2>
+            <p style="font-size:16px;">Monitor temperature, humidity, rainfall & upcoming weather patterns</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-            # Display weather summary
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("Temperature", f"{weather_data['temp']} °C")
-                st.metric("Humidity", f"{weather_data['humidity']} %")
-            with col2:
-                st.metric("Wind Speed", f"{weather_data['wind_speed']} km/h")
-                st.metric("Weather Condition", weather_data['description'].capitalize())
+    # City Input Box
+    city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
 
-        except Exception as e:
-            st.error(f"Error fetching data: {e}")
+    if st.button("🔍 Fetch Weather Data"):
+        if city:
+            try:
+                weather_data = fetch_weather_data(city)
+                if weather_data:
+                    st.success(f"✅ Showing Weather Data for {city}")
+
+                    col1, col2, col3 = st.columns(3)
+
+                    with col1:
+                        st.metric("🌡️ Temperature (°C)", f"{weather_data['temperature']}°C", delta=f"{weather_data['temp_change']}°C")
+                    with col2:
+                        st.metric("💧 Humidity (%)", f"{weather_data['humidity']}%", delta=f"{weather_data['humidity_change']}%")
+                    with col3:
+                        st.metric("🌧️ Rainfall (mm)", f"{weather_data['rainfall']} mm", delta=f"{weather_data['rain_change']} mm")
+
+                    st.markdown("---")
+
+                    st.markdown("""
+                        <h4 style='color:#1e3a8a; font-family:Poppins;'>📈 Weather Forecast (Next 5 Days)</h4>
+                    """, unsafe_allow_html=True)
+
+                    import plotly.graph_objects as go
+                    fig = go.Figure()
+
+                    fig.add_trace(go.Scatter(
+                        x=weather_data["forecast_dates"],
+                        y=weather_data["forecast_temps"],
+                        mode="lines+markers",
+                        name="Temperature (°C)",
+                        line=dict(color="orange", width=3)
+                    ))
+
+                    fig.add_trace(go.Bar(
+                        x=weather_data["forecast_dates"],
+                        y=weather_data["forecast_rainfall"],
+                        name="Rainfall (mm)",
+                        marker_color="skyblue",
+                        opacity=0.7
+                    ))
+
+                    fig.update_layout(
+                        template="plotly_white",
+                        title=f"📊 Forecast Overview - {city}",
+                        xaxis_title="Date",
+                        yaxis_title="Values",
+                        legend_title="Weather Parameters",
+                        height=400,
+                        margin=dict(l=20, r=20, t=40, b=20)
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
+            except Exception as e:
+                st.error(f"⚠️ Unable to fetch weather data for {city}. Please try again later.")
+        else:
+            st.warning("Please enter a valid city name.")
+
 
 # ---------- TAB 2: YIELD MAP ----------
-with tabs[1]:
+with tabs[2]:
     st.markdown("<div class='tab-header'>🗺️ Yield Forecast Visualization</div>", unsafe_allow_html=True)
     st.write("View yield forecast and rainfall impact across Indian states.")
     show_yield_map()
 
 # ---------- TAB 3: AI RECOMMENDATIONS ----------
 # --- AI Recommendations Tab ---
-with tabs[2]:
+with tabs[3]:
     st.markdown("<h2 style='color:#16a34a; text-align:center;'>🌾 Smart AI Crop Recommendations</h2>", unsafe_allow_html=True)
     st.write("Our AI analyzes environmental data to provide actionable, data-driven recommendations for farmers.")
 
@@ -231,6 +288,7 @@ st.markdown("""
     <i>Empowering Sustainable Agriculture through AI, Data & Innovation.</i>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
