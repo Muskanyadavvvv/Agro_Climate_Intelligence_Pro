@@ -283,11 +283,18 @@ with tabs[3]:
 
 # ---------- 🌱 FOOTER ----------
 st.markdown("""
-<div class='footer'>
-    © 2025 Agro Climate Intelligence Pro | Developed for B.Tech Final Year Project 🌾<br>
-    <i>Empowering Sustainable Agriculture through AI, Data & Innovation.</i>
+<div style='text-align:center; padding:20px; margin-top:40px; background-color:#f8f9fa; border-radius:12px;'>
+    <h4 style='color:#2e8b57; margin-bottom:8px;'>Agro Climate Intelligence Pro</h4>
+    <p style='color:#555; font-size:15px; margin:0;'>
+        Empowering Sustainable Agriculture with <b>AI</b> and <b>Data Intelligence</b> 🌿
+    </p>
+    <p style='color:#888; font-size:13px; margin-top:6px;'>
+        © 2025 Developed by <b>Muskan Yadav</b>
+    </p>
 </div>
 """, unsafe_allow_html=True)
+
+
 
 
 
