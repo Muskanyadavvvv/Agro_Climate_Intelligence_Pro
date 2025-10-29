@@ -1,8 +1,0 @@
-| State       | Crop      | Temperature | Rainfall | CO2 | Yield |
-| ----------- | --------- | ----------- | -------- | --- | ----- |
-| Punjab      | Wheat     | 24.5        | 300      | 410 | 3.5   |
-| Haryana     | Rice      | 28.1        | 400      | 420 | 4.2   |
-| UP          | Sugarcane | 26.8        | 350      | 415 | 5.8   |
-| MP          | Soybean   | 27.2        | 250      | 418 | 2.9   |
-| Maharashtra | Cotton    | 29.5        | 200      | 425 | 3.2   |
-| Rajasthan   | Bajra     | 30.0        | 180      | 430 | 2.5   |
