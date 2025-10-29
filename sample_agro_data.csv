@@ -1,7 +1,8 @@
-State,Year,Temperature(°C),Rainfall(mm),CO2(ppm),Yield(t/ha)
-Uttar Pradesh,2020,29,820,410,4.2
-Punjab,2020,31,750,412,4.5
-Maharashtra,2020,33,670,415,3.8
-Bihar,2020,28,910,409,4.6
-Tamil Nadu,2020,34,620,416,3.7
-Gujarat,2020,32,710,414,4.0
+| State       | Crop      | Temperature | Rainfall | CO2 | Yield |
+| ----------- | --------- | ----------- | -------- | --- | ----- |
+| Punjab      | Wheat     | 24.5        | 300      | 410 | 3.5   |
+| Haryana     | Rice      | 28.1        | 400      | 420 | 4.2   |
+| UP          | Sugarcane | 26.8        | 350      | 415 | 5.8   |
+| MP          | Soybean   | 27.2        | 250      | 418 | 2.9   |
+| Maharashtra | Cotton    | 29.5        | 200      | 425 | 3.2   |
+| Rajasthan   | Bajra     | 30.0        | 180      | 430 | 2.5   |
