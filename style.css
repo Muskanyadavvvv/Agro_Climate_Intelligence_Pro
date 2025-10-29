@@ -8,3 +8,18 @@ h1, h2, h3 {
 button {
     border-radius: 10px !important;
 }
+/* 🌾 Dashboard Enhancement */
+h1, h2, h3, p {
+    font-family: 'Poppins', sans-serif;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #16a34a !important;
+    font-weight: 700 !important;
+}
+
+div[data-testid="stMetricDelta"] {
+    color: #0284c7 !important;
+    font-weight: 600 !important;
+}
+
