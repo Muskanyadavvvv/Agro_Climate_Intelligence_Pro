@@ -4,7 +4,7 @@ import streamlit as st
 import requests
 import json
 
-def show_yield_map(data_path="data/sample_agro_data.csv"):
+def show_yield_map(data_path="sample_agro_data.csv"):
     try:
         df = pd.read_csv(data_path)
         df["State"] = ["Uttar Pradesh", "Punjab", "Maharashtra", "Bihar", "Tamil Nadu", "Gujarat"] * (len(df)//6 + 1)
@@ -28,3 +28,4 @@ def show_yield_map(data_path="data/sample_agro_data.csv"):
         st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
         st.error(f"Error generating map: {e}")
+
