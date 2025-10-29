@@ -1,0 +1,7 @@
+State,Year,Temperature(°C),Rainfall(mm),CO2(ppm),Yield(t/ha)
+Uttar Pradesh,2020,29,820,410,4.2
+Punjab,2020,31,750,412,4.5
+Maharashtra,2020,33,670,415,3.8
+Bihar,2020,28,910,409,4.6
+Tamil Nadu,2020,34,620,416,3.7
+Gujarat,2020,32,710,414,4.0

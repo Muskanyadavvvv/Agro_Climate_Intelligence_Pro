@@ -1,0 +1,10 @@
+/* Custom Streamlit UI styling */
+[data-testid="stSidebar"] {
+    background-color: #f5f5f5;
+}
+h1, h2, h3 {
+    color: #2b9348;
+}
+button {
+    border-radius: 10px !important;
+}
