@@ -159,61 +159,52 @@ with tabs[1]:
     city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
 
     if st.button("🔍 Fetch Weather Data"):
-        if city:
-            try:
-                weather_data = fetch_weather_data(city)
-                if weather_data:
-                    st.success(f"✅ Showing Weather Data for {city}")
+    if city:
+        try:
+            weather_data = fetch_weather_data(city)
 
-                    col1, col2, col3 = st.columns(3)
+            # --- Data Fallback (if API fails) ---
+            if not weather_data:
+                st.warning("⚠️ Unable to fetch live data. Showing default values for demo.")
+                weather_data = {
+                    "temperature": 28.0,
+                    "humidity": 65,
+                    "rainfall": 5,
+                    "description": "Clear sky (Demo Mode)",
+                    "wind_speed": 3.2,
+                    "city": city
+                }
 
-                    with col1:
-                        st.metric("🌡️ Temperature (°C)", f"{weather_data['temperature']}°C", delta=f"{weather_data['temp_change']}°C")
-                    with col2:
-                        st.metric("💧 Humidity (%)", f"{weather_data['humidity']}%", delta=f"{weather_data['humidity_change']}%")
-                    with col3:
-                        st.metric("🌧️ Rainfall (mm)", f"{weather_data['rainfall']} mm", delta=f"{weather_data['rain_change']} mm")
+        except Exception as e:
+            st.error(f"❌ Error fetching data: {e}")
+            weather_data = {
+                "temperature": 28.0,
+                "humidity": 65,
+                "rainfall": 5,
+                "description": "Clear sky (Fallback Mode)",
+                "wind_speed": 3.2,
+                "city": city
+            }
 
-                    st.markdown("---")
+        # --- Display Weather Data ---
+        if weather_data:
+            st.success(f"✅ Showing Weather Data for {city}")
+            col1, col2, col3 = st.columns(3)
 
-                    st.markdown("""
-                        <h4 style='color:#1e3a8a; font-family:Poppins;'>📈 Weather Forecast (Next 5 Days)</h4>
-                    """, unsafe_allow_html=True)
+            with col1:
+                st.metric("🌧️ Rainfall", f"{weather_data['rainfall']} mm", "Avg rainfall")
+            with col2:
+                st.metric("🌡️ Temperature", f"{weather_data['temperature']} °C", "Current")
+            with col3:
+                st.metric("💧 Humidity", f"{weather_data['humidity']} %", "Current")
 
-                    import plotly.graph_objects as go
-                    fig = go.Figure()
+            st.markdown(f"""
+            ☁️ **Condition:** {weather_data['description']}  
+            🌬️ **Wind Speed:** {weather_data['wind_speed']} m/s
+            """)
 
-                    fig.add_trace(go.Scatter(
-                        x=weather_data["forecast_dates"],
-                        y=weather_data["forecast_temps"],
-                        mode="lines+markers",
-                        name="Temperature (°C)",
-                        line=dict(color="orange", width=3)
-                    ))
-
-                    fig.add_trace(go.Bar(
-                        x=weather_data["forecast_dates"],
-                        y=weather_data["forecast_rainfall"],
-                        name="Rainfall (mm)",
-                        marker_color="skyblue",
-                        opacity=0.7
-                    ))
-
-                    fig.update_layout(
-                        template="plotly_white",
-                        title=f"📊 Forecast Overview - {city}",
-                        xaxis_title="Date",
-                        yaxis_title="Values",
-                        legend_title="Weather Parameters",
-                        height=400,
-                        margin=dict(l=20, r=20, t=40, b=20)
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
-
-            except Exception as e:
-                st.error(f"⚠️ Unable to fetch weather data for {city}. Please try again later.")
-        else:
-            st.warning("Please enter a valid city name.")
+    else:
+        st.error("⚠️ Please enter a city name.")
 
 
 # ---------- TAB 2: YIELD MAP ----------
@@ -293,6 +284,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
