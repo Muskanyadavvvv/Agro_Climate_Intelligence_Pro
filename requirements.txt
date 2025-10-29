@@ -1,8 +1,8 @@
 streamlit
 pandas
+folium
+streamlit-folium
 numpy
 plotly
-requests
-prophet
-tensorflow
+matplotlib
 scikit-learn
