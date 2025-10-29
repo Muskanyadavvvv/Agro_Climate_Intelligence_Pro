@@ -1,31 +1,48 @@
-import pandas as pd
-import plotly.express as px
 import streamlit as st
-import requests
-import json
+import pandas as pd
+import folium
+from streamlit_folium import st_folium
 
-def show_yield_map(data_path="sample_agro_data.csv"):
+def app():
+    st.header("🗺️ Yield Forecast Visualization")
+
     try:
-        df = pd.read_csv(data_path)
-        df["State"] = ["Uttar Pradesh", "Punjab", "Maharashtra", "Bihar", "Tamil Nadu", "Gujarat"] * (len(df)//6 + 1)
-        df = df.head(len(df))
-        state_yield = df.groupby("State")["Yield(t/ha)"].mean().reset_index()
+        # Load the sample dataset
+        df = pd.read_csv("sample_agro_data.csv")
 
-        # India geojson
-        india_url = "https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson"
-        geojson_data = json.loads(requests.get(india_url).text)
+        # Add approximate latitude and longitude for each state (10 states)
+        state_coords = {
+            "Punjab": [31.1471, 75.3412],
+            "Haryana": [29.0588, 76.0856],
+            "Uttar Pradesh": [26.8467, 80.9462],
+            "Madhya Pradesh": [23.4733, 77.9479],
+            "Maharashtra": [19.7515, 75.7139],
+            "Rajasthan": [27.0238, 74.2179],
+            "Gujarat": [22.2587, 71.1924],
+            "Bihar": [25.0961, 85.3131],
+            "Tamil Nadu": [11.1271, 78.6569],
+            "Karnataka": [15.3173, 75.7139]
+        }
 
-        fig = px.choropleth(
-            state_yield,
-            geojson=geojson_data,
-            featureidkey="properties.NAME_1",
-            locations="State",
-            color="Yield(t/ha)",
-            color_continuous_scale="YlGn",
-            title="Predicted Average Yield per State (t/ha)",
-        )
-        fig.update_geos(fitbounds="locations", visible=False)
-        st.plotly_chart(fig, use_container_width=True)
+        # Map coordinates to dataframe
+        df["Latitude"] = df["State"].map(lambda x: state_coords[x][0])
+        df["Longitude"] = df["State"].map(lambda x: state_coords[x][1])
+
+        # Create Folium map
+        m = folium.Map(location=[22.5, 78.9], zoom_start=5, tiles="CartoDB positron")
+
+        # Add markers for each state
+        for i, row in df.iterrows():
+            folium.CircleMarker(
+                location=[row["Latitude"], row["Longitude"]],
+                radius=7,
+                color="green",
+                fill=True,
+                fill_color="yellow",
+                popup=f"<b>{row['State']}</b><br>Crop: {row['Crop']}<br>Yield: {row['Yield']} tons/ha<br>Temp: {row['Temperature']}°C<br>Rainfall: {row['Rainfall']}mm"
+            ).add_to(m)
+
+        st_folium(m, width=725, height=500)
+
     except Exception as e:
         st.error(f"Error generating map: {e}")
-
