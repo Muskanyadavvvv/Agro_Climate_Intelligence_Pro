@@ -48,7 +48,7 @@ with tabs[1]:
 # --- Yield Map Tab ---
 with tabs[2]:
     st.subheader("🗺️ Yield Forecast Visualization")
-    show_yield_map("sample_agro_data.csv")
+    show_yield_map()
 
 # --- AI Recommendations Tab ---
 with tabs[3]:
@@ -62,6 +62,7 @@ with tabs[3]:
     if st.button("Generate Recommendation"):
         result = get_agri_recommendation(crop, temp, rain, yield_pred)
         st.success(result)
+
 
 
 
