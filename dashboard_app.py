@@ -138,34 +138,37 @@ tabs = st.tabs([
 
 # ---------- TAB 1: WEATHER ----------
 # ---------- 🌦️ WEATHER & FORECAST TAB ----------
+# ----------- WEATHER & FORECAST TAB -----------
 with tabs[1]:
+    # Stylish header
     st.markdown("""
-        <div style="
-            background: linear-gradient(90deg, #3b82f6, #06b6d4);
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            margin-bottom: 25px;">
-            <h2 style="font-family:Poppins; font-weight:700; margin:0;">
-                🌦️ Real-Time Weather and Forecast
-            </h2>
-            <p style="font-size:16px;">Monitor temperature, humidity, rainfall & upcoming weather patterns</p>
-        </div>
+    <div style="
+        background: linear-gradient(90deg, #0093E9 0%, #80D0C7 100%);
+        padding: 20px;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+        margin-bottom: 25px;">
+        <h2 style="font-family:Poppins; font-weight:700; margin:0;">🌦️ Real-Time Weather and Forecast</h2>
+        <p style="font-size:16px; margin:5px 0 0;">Monitor temperature, humidity, rainfall & upcoming weather patterns</p>
+    </div>
     """, unsafe_allow_html=True)
 
-   # City Input Box
-city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
+    # City Input
+    city = st.text_input("🏙️ Enter City Name", placeholder="e.g., Delhi")
 
-if st.button("🔍 Fetch Weather Data"):
-    if city:
-        try:
-            weather_data = fetch_weather_data(city)
+    # Fetch button
+    if st.button("🔍 Fetch Weather Data"):
+        if city:
+            try:
+                weather_data = fetch_weather_data(city)
+            except Exception as e:
+                st.warning("⚠️ Error fetching live data. Using demo values instead.")
+                weather_data = None
 
-            # --- Data Fallback (if API fails) ---
+            # --- Fallback Demo Data (if API fails) ---
             if not weather_data:
-                st.warning("⚠️ Unable to fetch live data. Showing default values for demo.")
                 weather_data = {
                     "temperature": 28.0,
                     "humidity": 65,
@@ -175,16 +178,51 @@ if st.button("🔍 Fetch Weather Data"):
                     "city": city
                 }
 
+            # --- Display Results ---
             if weather_data:
                 st.success(f"✅ Showing Weather Data for {city}")
+
                 col1, col2, col3 = st.columns(3)
-                # You can add display elements for temperature, humidity, etc. here
 
-        except Exception as e:
-            st.error(f"⚠️ Error fetching weather data: {e}")
-    else:
-        st.warning("⚠️ Please enter a city name.")
+                with col1:
+                    st.markdown("""
+                    <div style="background-color:#E3F2FD; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
+                        <h3>🌡️ Temperature</h3>
+                        <h2 style='color:#1976D2;'>{} °C</h2>
+                        <p>Optimal range for most crops</p>
+                    </div>
+                    """.format(weather_data['temperature']), unsafe_allow_html=True)
 
+                with col2:
+                    st.markdown("""
+                    <div style="background-color:#E8F5E9; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
+                        <h3>💧 Humidity</h3>
+                        <h2 style='color:#2E7D32;'>{}%</h2>
+                        <p>Stable humidity levels</p>
+                    </div>
+                    """.format(weather_data['humidity']), unsafe_allow_html=True)
+
+                with col3:
+                    st.markdown("""
+                    <div style="background-color:#FFF8E1; padding:20px; border-radius:10px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.1);">
+                        <h3>🌧️ Rainfall</h3>
+                        <h2 style='color:#F57C00;'>{} mm</h2>
+                        <p>Expected seasonal rainfall</p>
+                    </div>
+                    """.format(weather_data['rainfall']), unsafe_allow_html=True)
+
+                st.markdown("---")
+
+                # Weather Summary Section
+                st.markdown(f"""
+                <div style="background: #F3F6F9; padding: 15px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0,0,0,0.05);">
+                    <h4>🌤️ Weather Summary</h4>
+                    <p><b>Condition:</b> {weather_data['description']}</p>
+                    <p><b>🌬️ Wind Speed:</b> {weather_data['wind_speed']} m/s</p>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.warning("⚠️ Please enter a city name before fetching data.")
 
 # ---------- TAB 2: YIELD MAP ----------
 with tabs[2]:
@@ -263,6 +301,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
